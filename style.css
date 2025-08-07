@@ -1,0 +1,190 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    background: url('./img/1920.svg');
+}
+
+.f-s-12{
+  font-size: 12px;
+}
+.clink2 {
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+a.navlink {
+  color: #4682b427;
+  font-size: x-small;
+  
+}
+
+.bluredbg {
+   
+  position: relative;
+  /*height: 100vh; /* Высота контейнера */
+  overflow: hidden; /* Обрезаем избыточное размытие */
+
+}
+
+.bluredbg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1); /* Полупрозрачная подложка */
+  z-index: -1;
+}
+
+.bluredbg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('./img/sw.jpg') /*center/cover; /* Фоновое изображение */;
+  filter: blur(5px); /* Уровень размытия */
+  z-index: -1; /* Отправляем под контент */
+}
+.linksvip {
+    padding: 25px 0;
+    position: relative;
+    z-index: 1;
+    isolation: isolate; /* Изолируем от фона (современные браузеры) */
+   /* backdrop-filter: blur(5px) brightness(90%) saturate(70%);*/
+    text-shadow: 1px 1px 2px lightblue;
+}
+.descr {
+    font-size: small;
+}
+
+.arrow-left {
+  border: 30px solid transparent;
+  border-left-color: steelblue;
+  border-right: 0;
+  }
+
+.arrow-right {
+  border: 30px solid transparent;
+  border-right-color: gold;
+  border-left: 0;
+  }
+
+.tablhd {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: rgb(9, 36, 135);
+    text-shadow: 1px 1px 2px lightblue;
+}
+
+.roboto-100 {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.roboto-200 {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.roboto-300 {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.roboto-400 {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.roboto-500 {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.roboto-600 {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.roboto-700 {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.roboto-800 {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.roboto-900 {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+
+h2 {
+    color: #333;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 15px;
+}
+
+a {
+    color: #003cff;
+    text-decoration: none;
+    font-size: 1.0em;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+

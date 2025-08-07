@@ -1,0 +1,430 @@
+```zip
+links_system/
+├── config.php
+├── index.php
+├── admin/
+│   ├── index.php
+│   ├── login.php
+│   ├── logout.php
+│   ├── manage_links.php
+│   └── style.css
+├── sql/
+│   └── links_db.sql
+└── style.css
+```
+
+### 1. config.php
+```php
+<?php
+// Настройки подключения к базе данных
+define("DB_SERVER", "localhost");
+define("DB_USER", "root");
+define("DB_PASS", "");
+define("DB_NAME", "links_db");
+
+session_start();
+
+// Подключение к базе данных
+try {
+    $pdo = new PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME.";charset=utf8mb4", DB_USER, DB_PASS);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Ошибка подключения: " . $e->getMessage());
+}
+
+// Функция для проверки авторизации
+function isLoggedIn() {
+    return isset($_SESSION['admin']) && $_SESSION['admin'] === true;
+}
+?>
+```
+
+### 2. sql/links_db.sql
+```sql
+CREATE DATABASE IF NOT EXISTS links_db;
+USE links_db;
+
+CREATE TABLE links (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+-- Добавление тестового админа (пароль: admin123)
+INSERT INTO admins (username, password) VALUES ('admin', '$2y$10$2X8z7f6k5Qz3Y9W0r8X1N.k9s1z2y3x4w5v6b7n8m9p0q1r2t3u4v');
+```
+
+### 3. admin/login.php
+```php
+<?php
+require_once '../config.php';
+
+if (isLoggedIn()) {
+    header('Location: index.php');
+    exit;
+}
+
+$error = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    $stmt = $pdo->prepare("SELECT * FROM admins WHERE username = ?");
+    $stmt->execute([$username]);
+    $admin = $stmt->fetch();
+
+    if ($admin && password_verify($password, $admin['password'])) {
+        $_SESSION['admin'] = true;
+        header('Location: index.php');
+        exit;
+    } else {
+        $error = 'Неверное имя пользователя или пароль';
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в админ-панель</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Вход в админ-панель</h2>
+        <?php if ($error): ?>
+            <p class="error"><?php echo $error; ?></p>
+        <?php endif; ?>
+        <form method="post">
+            <div class="form-group">
+                <label for="username">Имя пользователя</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Войти</button>
+        </form>
+    </div>
+</body>
+</html>
+```
+
+### 4. admin/index.php
+```php
+<?php
+require_once '../config.php';
+
+if (!isLoggedIn()) {
+    header('Location: login.php');
+    exit;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Админ-панель</h2>
+        <p><a href="manage_links.php">Управление ссылками</a></p>
+        <p><a href="logout.php">Выйти</a></p>
+    </div>
+</body>
+</html>
+```
+
+### 5. admin/logout.php
+```php
+<?php
+require_once '../config.php';
+session_destroy();
+header('Location: login.php');
+exit;
+?>
+```
+
+### 6. admin/manage_links.php
+```php
+<?php
+require_once '../config.php';
+
+if (!isLoggedIn()) {
+    header('Location: login.php');
+    exit;
+}
+
+$message = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = $_POST['title'] ?? '';
+    $url = $_POST['url'] ?? '';
+    $description = $_POST['description'] ?? '';
+
+    if ($title && $url) {
+        $stmt = $pdo->prepare("INSERT INTO links (title, url, description) VALUES (?, ?, ?)");
+        if ($stmt->execute([$title, $url, $description])) {
+            $message = 'Ссылка успешно добавлена';
+        } else {
+            $message = 'Ошибка при добавлении ссылки';
+        }
+    } else {
+        $message = 'Заполните обязательные поля';
+    }
+}
+
+// Получение списка ссылок
+$stmt = $pdo->query("SELECT * FROM links ORDER BY created_at DESC");
+$links = $stmt->fetchAll();
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление ссылками</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Управление ссылками</h2>
+        <a href="index.php">Назад в админ-панель</a>
+        <?php if ($message): ?>
+            <p class="<?php echo strpos($message, 'Ошибка') === false ? 'success' : 'error'; ?>">
+                <?php echo $message; ?>
+            </p>
+        <?php endif; ?>
+        
+        <h3>Добавить новую ссылку</h3>
+        <form method="post">
+            <div class="form-group">
+                <label for="title">Название</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="url">URL</label>
+                <input type="url" id="url" name="url" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Описание</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+            <button type="submit">Добавить</button>
+        </form>
+
+        <h3>Список ссылок</h3>
+        <table>
+            <tr>
+                <th>Название</th>
+                <th>URL</th>
+                <th>Описание</th>
+                <th>Дата</th>
+            </tr>
+            <?php foreach ($links as $link): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($link['title']); ?></td>
+                    <td><a href="<?php echo htmlspecialchars($link['url']); ?>" target="_blank"><?php echo htmlspecialchars($link['url']); ?></a></td>
+                    <td><?php echo htmlspecialchars($link['description'] ?? ''); ?></td>
+                    <td><?php echo $link['created_at']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    </div>
+</body>
+</html>
+```
+
+### 7. index.php
+```php
+<?php
+require_once 'config.php';
+
+// Получение списка ссылок
+$stmt = $pdo->query("SELECT * FROM links ORDER BY created_at DESC");
+$links = $stmt->fetchAll();
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Полезные ссылки</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Полезные ссылки</h2>
+        <ul>
+            <?php foreach ($links as $link): ?>
+                <li>
+                    <a href="<?php echo htmlspecialchars($link['url']); ?>" target="_blank">
+                        <?php echo htmlspecialchars($link['title']); ?>
+                    </a>
+                    <?php if ($link['description']): ?>
+                        <p><?php echo htmlspecialchars($link['description']); ?></p>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</body>
+</html>
+```
+
+### 8. admin/style.css
+```css
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2, h3 {
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+textarea {
+    height: 100px;
+}
+
+button {
+    padding: 10px 20px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #218838;
+}
+
+.error {
+    color: red;
+    margin-bottom: 15px;
+}
+
+.success {
+    color: green;
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #f8f9fa;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+```
+
+### 9. style.css
+```css
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #333;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 15px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1.1em;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+p {
+    color: #666;
+    margin: 5px 0 0 0;
+}
+```
