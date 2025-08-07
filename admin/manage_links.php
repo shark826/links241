@@ -69,11 +69,11 @@ if (isset($_GET['delete'])) {
             <div class="col-1 fs-5 tablhd">Дата</div>
             <div class="col-1 fs-5 tablhd">Действие</div>
             <hr>
-            <!-- <?php var_dump($links); ?> -->
+           
             <?php foreach ($links as $link): ?>
             <div class="col-1 border-end text-wrap"><?php echo htmlspecialchars($link['cat_title']); ?></div>
             <div class="col-3 border-end"><?php echo htmlspecialchars($link['title']); ?></div>
-            <div class="col-2 border-end"><a href="<?php echo htmlspecialchars($link['url']); ?>" target="_blank"><?php echo htmlspecialchars($link['url']); ?></a></div>
+            <div class="col-2 border-end fw-bold"><?php echo htmlspecialchars($link['url']); ?></div>
             <div class="col-4 lh-1 border-end"><?php echo htmlspecialchars($link['description'] ?? ''); ?></div>
             <div class="col-1 border-end"><?php echo $link['created_at']; ?></div>
             <div class="col-1 border-end">
