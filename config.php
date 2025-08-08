@@ -1,9 +1,6 @@
 <?php
 // Настройки подключения к базе данных
-define("DB_SERVER", "localhost");
-define("DB_USER", "links_user");
-define("DB_PASS", "Gdk2rvkf");
-define("DB_NAME", "links_db");
+include_once '/var/www/sites/links.cfg/db.php';
 
 session_start();
 
