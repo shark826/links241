@@ -52,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit">Войти</button>
+            <p>version <?php echo $versite; ?></p>
         </form>
     </div>
 </body>

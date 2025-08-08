@@ -81,8 +81,11 @@ if (isset($_GET['delete'])) {
                 <a class="btn btn-sm btn-danger" href="manage_links.php?delete=<?php echo $link['link_id']; ?>" onclick="return confirm('Вы уверены, что хотите удалить эту ссылку?');"><img src="./img/rf.png" width="20" height="20" alt=""></a> 
             </div>
             <?php endforeach; ?>
+            
         </div>
 
     </div>
+    <br>
+    <p>version <?php echo $versite; ?></p>
 </body>
 </html>

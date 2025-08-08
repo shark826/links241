@@ -26,6 +26,8 @@ if (!isLoggedIn()) {
         <p><a href="add_link.php">Добавить ссылку</a></p>
         <p><a href="manage_links.php">Управление ссылками</a></p>
         <p><a href="logout.php">Выйти</a></p>
+        <br>
+        <p>version <?php echo $versite; ?></p>
     </div>
 </body>
 </html>
