@@ -28,20 +28,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-    <title>Вход в админ-панель</title>
-    <link rel="stylesheet" href="style.css">
+<?php
+ include_once('../layouts/head.php');
+ ?>
+ <title>Вход в админ-панель</title>
+
 </head>
 <body>
     <div class="container">
-        <h2>Вход в админ-панель</h2>
+        <h2 class='ubuntu-bold'>Вход в админ-панель</h2>
         <?php if ($error): ?>
             <p class="error"><?php echo $error; ?></p>
-        <?php endif; ?>
+        <?php else:
+            echo ' '; 
+         endif; ?>
         <form method="post">
             <div class="form-group">
                 <label for="username">Имя пользователя</label>
@@ -51,8 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="password">Пароль</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Войти</button>
-            <p>version <?php echo $versite; ?></p>
+            <button class= "ubuntu-medium" type="submit">Войти</button>
+            <p class="ubuntu-light">version <?php echo $versite; ?></p>
         </form>
     </div>
 </body>

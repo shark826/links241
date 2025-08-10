@@ -49,25 +49,25 @@ if (isset($_GET['delete'])) {
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php
+    include_once('../layouts/head.php');
+    ?>
     <title>Управление ссылками</title>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
     <div class="container-md clink2">
-        <h2>Управление ссылками</h2>
-        <a class="abutton" href="./">Назад в админ-панель</a>
-        <h3>Список ссылок</h3>
+        <h2 class='ubuntu-bold'>Управление ссылками</h2>
+        <a class="abutton ubuntu-medium" href="./">Назад в админ-панель</a>
+        <h3 class="ubuntu-regular">Список ссылок</h3>
         <hr>
         <div class="row f-s-13">
-            <div class="col-1 fs-5 tablhd">Категория</div>
-            <div class="col-3 fs-5 tablhd">Название</div>
-            <div class="col-2 fs-5 tablhd">URL</div>
-            <div class="col-4 fs-5 tablhd">Описание</div>
-            <div class="col-1 fs-5 tablhd">Дата</div>
-            <div class="col-1 fs-5 tablhd">Действие</div>
+            <div class="col-1 fs-5 tablhd ubuntu-regular">Категория</div>
+            <div class="col-3 fs-5 tablhd ubuntu-regular">Название</div>
+            <div class="col-2 fs-5 tablhd ubuntu-regular">URL</div>
+            <div class="col-4 fs-5 tablhd ubuntu-regular">Описание</div>
+            <div class="col-1 fs-5 tablhd ubuntu-regular">Дата</div>
+            <div class="col-1 fs-5 tablhd ubuntu-regular">Действие</div>
             <hr>
            
             <?php foreach ($links as $link): ?>
@@ -86,6 +86,6 @@ if (isset($_GET['delete'])) {
 
     </div>
     <br>
-    <p>version <?php echo $versite; ?></p>
+    <p class="ubuntu-light">version <?php echo $versite; ?></p>
 </body>
 </html>

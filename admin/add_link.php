@@ -35,11 +35,11 @@ $categs = $stmt2->fetchAll();
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php
+    include_once('../layouts/head.php');
+    ?>
     <title>Добавить ссылку</title>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
         <div class="container clink2">
@@ -60,11 +60,11 @@ $categs = $stmt2->fetchAll();
                 </div>
                 <div class="form-group">
                     <label for="title">Название</label>
-                    <input type="text" id="title" name="title" required>
+                    <input type="text" id="title" name="title" placeholder="Label" required>
                 </div>
                 <div class="form-group">
                     <label for="url">URL</label>
-                    <input type="url" id="url" name="url" required>
+                    <input type="url" id="url" name="url" placeholder="http(s)://IP o URL" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Описание</label>
