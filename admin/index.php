@@ -20,10 +20,13 @@ if (!isLoggedIn()) {
     <div class="container ubuntu-medium">
         <h2>Админ-панель</h2>
         <hr>
-        <p><a href="/">Домой</a></p>
-        <p><a href="add_link.php">Добавить ссылку</a></p>
-        <p><a href="manage_links.php">Управление ссылками</a></p>
-        <p><a href="logout.php">Выйти</a></p>
+        <div class="row">
+            <p class="padmin"><a href="/">Домой</a></p>
+            <p class="padmin"><a href="add_link.php">Добавить ссылку</a></p>
+            <p class="padmin"><a href="manage_links.php">Управление ссылками</a></p>
+            <p class="padmin"><a href="logout.php">Выйти</a></p>
+        </div>
+
         <br>
         <p class="ubuntu-light">version <?php echo $versite; ?></p>
     </div>

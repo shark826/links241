@@ -17,7 +17,7 @@ include_once '/var/www/sites/links.cfg/db.php';
 0.25.8.8  
 Идея ввести версию :)  
 0.25.8.10 
-Подключение шрифта Ubuntu  
+Подключение шрифта Ubuntu в админке  
 вынос head html в отдельный файл  
 
 

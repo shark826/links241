@@ -3,7 +3,7 @@
 include_once '/var/www/sites/links.cfg/db.php';
 
 session_start();
-$versite = "0.25.8.19git";
+$versite = "0.25.8.19";
 
 // Подключение к базе данных
 try {
