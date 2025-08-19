@@ -58,8 +58,10 @@ if (isset($_GET['delete'])) {
 <body>
     <div class="container-md clink2">
         <h2 class='ubuntu-bold'>Управление ссылками</h2>
-        <a class="abutton ubuntu-medium" href="./">Назад в админ-панель</a>
         <h3 class="ubuntu-regular">Список ссылок</h3>
+        <a class="abutton ubuntu-medium" href="./">Назад в админ-панель</a>
+        <a class="btn btn-outline-secondary ubuntu-medium" href="./add_link.php">Добавить ссылку</a>
+        
         <hr>
         <div class="row f-s-13">
             <div class="col-1 fs-5 tablhd ubuntu-regular">Категория</div>
