@@ -11,6 +11,7 @@ CREATE TABLE links (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE links ADD scale_link smallint(2) NOT NULL AFTER url;
 
 CREATE TABLE admins (
     id INT AUTO_INCREMENT PRIMARY KEY,

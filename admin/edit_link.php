@@ -24,7 +24,7 @@ if (!$id) {
 
 
 // Получение данных ссылки
-$stmt = $pdo->prepare("SELECT links.id as link_id, links.category, links.title, links.url, links.description, links.created_at, 
+$stmt = $pdo->prepare("SELECT links.id as link_id, links.category, links.title, links.url, links.scale_link, links.description, links.created_at, 
                      category.id as cat_id, category.cat_title from links LEFT JOIN category ON category=category.id WHERE links.id = ?");
                     
 $stmt->execute([$id]);
@@ -41,11 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $categid = $_POST['categs'] ?? '';
     $title = $_POST['title'] ?? '';
     $url = $_POST['url'] ?? '';
+    $scale_link = $_POST['scale_link'] ?? '';
     $description = $_POST['description'] ?? '';
 
     if ($title && $url && $categid) {
-        $stmt = $pdo->prepare("UPDATE links SET category = ?, title = ?, url = ?, description = ? WHERE id = ?");
-        if ($stmt->execute([$categid, $title, $url, $description, $id])) {
+        $stmt = $pdo->prepare("UPDATE links SET category = ?, title = ?, url = ?, scale_link = ?, description = ? WHERE id = ?");
+        if ($stmt->execute([$categid, $title, $url, $scale_link, $description, $id])) {
             $message = 'Ссылка успешно обновлена';
             header('Location: manage_links.php');
             exit;
@@ -105,6 +106,10 @@ $categs = $stmt2->fetchAll();
                 <div class="form-group">
                     <label for="url">URL</label>
                     <input type="url" id="url" name="url" value="<?php echo htmlspecialchars($link['url']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="scale_link">Вес ссылки (от 0 до 10, где 10 более значимый вес)</label>
+                    <input type="number" min="0" max="10" id="scale_link" name="scale_link" value="<?php echo htmlspecialchars($link['scale_link']); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Описание</label>

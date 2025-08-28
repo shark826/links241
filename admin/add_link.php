@@ -11,11 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $categid = $_POST['categs'] ?? '';
     $title = $_POST['title'] ?? '';
     $url = $_POST['url'] ?? '';
+    $scale_link = $_POST['scale_link'] ?? '';
     $description = $_POST['description'] ?? '';
 
-    if ($title && $url && $categid) {
-        $stmt = $pdo->prepare("INSERT INTO links (category, title, url, description) VALUES (?, ?, ?, ?)");
-        if ($stmt->execute([$categid, $title, $url, $description])) {
+    if ($title && $url && $categid && $scale_link) {
+        $stmt = $pdo->prepare("INSERT INTO links (category, title, url, scale_link, description) VALUES (?, ?, ?, ?, ?)");
+        if ($stmt->execute([$categid, $title, $url, $scale_link, $description])) {
             $message = 'Ссылка успешно добавлена';
         } else {
             $message = 'Ошибка при добавлении ссылки';
@@ -65,6 +66,10 @@ $categs = $stmt2->fetchAll();
                 <div class="form-group">
                     <label for="url">URL</label>
                     <input type="url" id="url" name="url" placeholder="http(s)://IP o URL" required>
+                </div>
+                <div class="form-group">
+                    <label for="scale_link">Вес ссылки (от 0 до 10, где 10 более значимый вес)</label>
+                    <input type="number" min="0" max="10" id="scale_link" name="scale_link" value="0" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Описание</label>

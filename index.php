@@ -2,7 +2,7 @@
 require_once 'config.php';
 
 // Получение списка ссылок
-$stmt = $pdo->query("SELECT * FROM links ORDER BY title");
+$stmt = $pdo->query("SELECT * FROM links ORDER BY scale_link DESC, title");
 $links = $stmt->fetchAll();
 $stmt2 = $pdo->query("SELECT * FROM category ORDER BY id");
 $categs = $stmt2->fetchAll();
