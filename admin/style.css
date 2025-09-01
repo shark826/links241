@@ -120,3 +120,8 @@ p.padmin:hover {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
+.dropdown-menu-local {
+    font-size: 14px;
+    min-width: 115%;
+}

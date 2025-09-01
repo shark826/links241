@@ -81,8 +81,18 @@ if (isset($_GET['delete'])) {
             <div class="col-3 lh-1 border-end"><?php echo htmlspecialchars($link['description'] ?? ''); ?></div>
             <div class="col-1 border-end"><?php echo $link['created_at']; ?></div>
             <div class="col-1 border-end">
-                <a class="btn btn-sm btn-primary" href="<?php echo "edit_link.php?id=".$link['link_id']; ?>"><img src="./img/edit.png" width="20" height="20" alt=""></a>
-                <a class="btn btn-sm btn-danger" href="manage_links.php?delete=<?php echo $link['link_id']; ?>" onclick="return confirm('Вы уверены, что хотите удалить эту ссылку?');"><img src="./img/rf.png" width="20" height="20" alt=""></a> 
+                <div class="dropdown">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="font-size=8px;">
+                    Действие
+                </button>
+                <ul class="dropdown-menu dropdown-menu-local" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item fs-8" href="<?php echo "edit_link.php?id=".$link['link_id']; ?>">Изменить</a></li>
+                    <li><a class="dropdown-item" href="manage_links.php?delete=<?php echo $link['link_id']; ?>" onclick="return confirm('Вы уверены, что хотите удалить эту ссылку?');">Удалить</a></li>
+                    
+                </ul>
+                </div>
+                <!-- <a class="btn btn-sm btn-primary" href="<?php echo "edit_link.php?id=".$link['link_id']; ?>"><img src="./img/edit.png" width="20" height="20" alt=""></a>
+                <a class="btn btn-sm btn-danger" href="manage_links.php?delete=<?php echo $link['link_id']; ?>" onclick="return confirm('Вы уверены, что хотите удалить эту ссылку?');"><img src="./img/rf.png" width="20" height="20" alt=""></a>  -->
             </div>
             <?php endforeach; ?>
             
@@ -91,5 +101,8 @@ if (isset($_GET['delete'])) {
     </div>
     <br>
     <p class="ubuntu-light">version <?php echo $versite; ?></p>
+     <!-- <script src="../js/bootstrap.min.js"></script> -->
+      <script src="../js/bootstrap.bundle.min.js"></script>
+     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
 </body>
 </html>
