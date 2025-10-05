@@ -13,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $url = $_POST['url'] ?? '';
     $scale_link = $_POST['scale_link'] ?? '';
     $description = $_POST['description'] ?? '';
-
-    if ($title && $url && $categid && $scale_link) {
+    print_r($_POST);
+    if ($title && $url && $categid && $scale_link > -1) {
         $stmt = $pdo->prepare("INSERT INTO links (category, title, url, scale_link, description) VALUES (?, ?, ?, ?, ?)");
         if ($stmt->execute([$categid, $title, $url, $scale_link, $description])) {
             $message = 'Ссылка успешно добавлена';
